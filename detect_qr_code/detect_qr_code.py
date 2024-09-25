@@ -12,7 +12,6 @@ def get_password_info_qrcode_db() -> list:
 
         Returns:
             authorized_users_password (list): list that contain all passwords
-
     '''
     authorized_users_password = list()
     manipulation = ManipulateDB()
@@ -20,6 +19,7 @@ def get_password_info_qrcode_db() -> list:
     manipulation.close_db()
     for i in range(len(data)):
         authorized_users_password.append(data[i][0])
+        
 
     return authorized_users_password
 
@@ -34,13 +34,13 @@ def detect_qrcode(frame_placeholder:st._DeltaGenerator,btn:bool,message:st) -> N
             meassege (st): streamlit module for show message when the webcam was closed
             
         Returns:
-            None
+           access (bool) = value that say if access is authorized
     '''
     authorized_users_password = get_password_info_qrcode_db()
     cap = cv2.VideoCapture(0)
 
     while True:
-
+        teste = False
         ret,frame = cap.read()
         if not ret:
             message.write('THE VIDEO CAPTURE HAS ENDED!!')
@@ -52,12 +52,17 @@ def detect_qrcode(frame_placeholder:st._DeltaGenerator,btn:bool,message:st) -> N
             frame = cv2.polylines(frame,[np.array(poly)],True,(255,0,0),5)
             if data.decode() in authorized_users_password:
                 cv2.putText(frame,'ACCESS GRANTED',(rect.left,rect.top-15),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),3)
+                access = True
+                return access
+                
             else:
                 cv2.putText(frame,'ACCESS DENIED',(rect.left,rect.top-15),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),3)
+                access = False
+                return access
 
         frame_placeholder.image(frame,channels='BGR')
-        if cv2.waitKey(1) & 0xFF == ord('q') or btn:
+        if cv2.waitKey(1) & 0xFF == ord('q') or btn or teste:
             break
-
+        
     cap.release()
     cv2.destroyAllWindows()

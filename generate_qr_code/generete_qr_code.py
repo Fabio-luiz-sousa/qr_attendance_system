@@ -43,5 +43,5 @@ def insert_qr_code_infos_db(password:str,type_qrcode:str,name_image:str) -> None
     manipulation.close_db()
 
 password = create_password()
-qrcode_create(password,'admin')
-insert_qr_code_infos_db(password,'admin','admin')
+qrcode_create(password,'user')
+insert_qr_code_infos_db(password,'user','user')
