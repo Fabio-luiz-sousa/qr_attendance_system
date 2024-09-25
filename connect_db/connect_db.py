@@ -12,7 +12,6 @@ class ConnectDB():
             ''' Function that creates a table in database '''
             self.cursor.execute(""" CREATE TABLE IF NOT EXISTS qr_info(
                             password TEXT PRIMARY KEY NOT NULL,
-                            type_qrcode TEXT NOT NULL,
                             name_qrcode_img TEXT NOT NULL,
                             data_creation DATETIME NOT NULL)""")
         create_table()
@@ -41,8 +40,8 @@ class ManipulateDB(ConnectDB):
             Returns:
                 None 
         '''
-        self.cursor.execute(""" INSERT INTO qr_info (password, type_qrcode, name_qrcode_img, data_creation) 
-                            VALUES (?,?,?,?)""",data)
+        self.cursor.execute(""" INSERT INTO qr_info (password, name_qrcode_img, data_creation) 
+                            VALUES (?,?,?)""",data)
         self.conn.commit()
 
 
@@ -52,7 +51,7 @@ class ManipulateDB(ConnectDB):
             Returns:
                 data (list) = list of tuples that contain all infos the table 
         '''
-        self.cursor.execute(""" SELECT * FROM qr_info """)
+        self.cursor.execute(""" SELECT * FROM qr_info""")
         data  = self.cursor.fetchall()
         return data
 

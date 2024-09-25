@@ -7,6 +7,8 @@ import sys
 sys.path.insert(0,os.path.abspath(os.curdir))
 from connect_db.connect_db import ManipulateDB
 
+
+
 def get_password_info_qrcode_db() -> list:
     ''' Function that get all password in the table of database 
 
@@ -25,7 +27,7 @@ def get_password_info_qrcode_db() -> list:
 
 
 
-def detect_qrcode(frame_placeholder:st._DeltaGenerator,btn:bool,message:st) -> None:
+def detect_qrcode(frame_placeholder:st._DeltaGenerator,message:st) -> bool:
     '''Function that detect a qr code by webcam
 
         Parameters:
@@ -38,9 +40,7 @@ def detect_qrcode(frame_placeholder:st._DeltaGenerator,btn:bool,message:st) -> N
     '''
     authorized_users_password = get_password_info_qrcode_db()
     cap = cv2.VideoCapture(0)
-
     while True:
-        teste = False
         ret,frame = cap.read()
         if not ret:
             message.write('THE VIDEO CAPTURE HAS ENDED!!')
@@ -53,16 +53,18 @@ def detect_qrcode(frame_placeholder:st._DeltaGenerator,btn:bool,message:st) -> N
             if data.decode() in authorized_users_password:
                 cv2.putText(frame,'ACCESS GRANTED',(rect.left,rect.top-15),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),3)
                 access = True
+                frame_placeholder.empty()
+                cap.release()
+                cv2.destroyAllWindows()
                 return access
                 
             else:
                 cv2.putText(frame,'ACCESS DENIED',(rect.left,rect.top-15),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),3)
                 access = False
+                frame_placeholder.empty()
+                cap.release()
+                cv2.destroyAllWindows()
                 return access
-
-        frame_placeholder.image(frame,channels='BGR')
-        if cv2.waitKey(1) & 0xFF == ord('q') or btn or teste:
-            break
         
-    cap.release()
-    cv2.destroyAllWindows()
+        frame_placeholder.image(frame,channels='BGR')
+    

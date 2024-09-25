@@ -32,16 +32,20 @@ def qrcode_create(password:str,name_image:str) -> None:
     qr = qrcode.make(password)
     qr.save(f'./qr_code_imgs/{name_image}.png')
 
-def insert_qr_code_infos_db(password:str,type_qrcode:str,name_image:str) -> None:
+def insert_qr_code_infos_db(password:str,name_image:str) -> None:
     ''' Function that insert qr code infos in the table of database
+
+        Parameters:
+            password (str): password created in the function create_password
+            name_imag (str): name of qr code image
 
         Returns:
             None
     '''
     manipulation = ManipulateDB()
-    manipulation.insert_infos(data=[password,type_qrcode,name_image,datetime.datetime.now()])
+    manipulation.insert_infos(data=[password,name_image,datetime.datetime.now()])
     manipulation.close_db()
 
 password = create_password()
-qrcode_create(password,'user')
-insert_qr_code_infos_db(password,'user','user')
+qrcode_create(password,'admin')
+insert_qr_code_infos_db(password,'admin')
