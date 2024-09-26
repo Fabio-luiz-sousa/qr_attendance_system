@@ -32,7 +32,6 @@ def detect_qrcode(frame_placeholder:st._DeltaGenerator,message:st) -> bool:
 
         Parameters:
             frame_palceholder (st.DeltaGenerator): streamlit object for show webcam in the webapp
-            btn (bool): boolean value that indicate if btn was pressed or not in web app
             meassege (st): streamlit module for show message when the webcam was closed
             
         Returns:

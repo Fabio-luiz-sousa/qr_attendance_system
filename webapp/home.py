@@ -1,6 +1,6 @@
 from functions import *
 
-def settings():
+def settings() -> None:
     '''Function that configure the tab after the authorized access'''
     st.tabs(['Settings'])
     options = st.radio('Options',['Search','Insert','Delete','Log'])
@@ -23,12 +23,3 @@ if st.session_state['verification_done'] and st.session_state['access_granted']:
     settings()
 else:
     st.error('Invalid Credentials!!!')
-    
-    
-
-
-
-
-
-
-

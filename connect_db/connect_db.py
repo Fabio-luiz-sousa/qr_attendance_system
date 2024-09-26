@@ -76,7 +76,7 @@ class ManipulateDB(ConnectDB):
         self.cursor.execute(f""" DELETE FROM qr_info WHERE name_qrcode_img = "{name_image}" """)
         self.conn.commit()
 
-    def insert_infos_log_info_table(self,data:list):
+    def insert_infos_log_info_table(self,data:list) -> None:
         ''' Function that insert the infos in table
 
             Parameters:

@@ -9,14 +9,14 @@ from connect_db.connect_db import ManipulateDB
 import pandas as pd
 
 
-def home():
+def home() -> None:
     '''Function that create a home messages'''
     st.set_page_config(
     page_title = 'QR ATTENDANCE SYSTEM',
     )
     st.title('Welcome, check your access!')
 
-def check_access():
+def check_access() -> None:
     '''Function that check access'''
     if 'verification_done' not in st.session_state:
         st.session_state['verification_done'] = False
@@ -29,7 +29,7 @@ def check_access():
         st.session_state['access_granted'] = access
         st.session_state['verification_done'] = True
 
-def option_search():
+def option_search() -> None:
     '''Function that create a option search in tab settings'''
     btn = st.button('search all data')
     if btn:
@@ -40,7 +40,7 @@ def option_search():
         df['date_creation'] = pd.to_datetime(df['date_creation'],unit='s')
         st.dataframe(df)
 
-def option_insert():
+def option_insert() -> None:
     '''Function that create a option insert in tab settings'''
     name_img = st.text_input(label='write a name o qr_code image')
     if len(name_img) > 0:
@@ -49,7 +49,7 @@ def option_insert():
         insert_qr_code_infos_db(password,name_img)
         st.success('data Inserted!')
 
-def option_delete():
+def option_delete() -> None:
     '''Function that create a option delete in tab settings'''
     name_img = st.text_input(label='write a name o qr_code image for delete')
     if len(name_img) > 0:
@@ -64,7 +64,7 @@ def option_delete():
         elif btn_no:
             st.success('Exclusion denied')
 
-def option_log():
+def option_log() -> None:
     '''Function that create a option log in tab settings'''
     btn = st.button('search all log data')
     if btn:
